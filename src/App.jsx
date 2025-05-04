@@ -1,18 +1,19 @@
-import { useState, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Grid from "./components/Grid";
 import {
   generateRandomGrid,
   generateEmptyGrid,
   numRows,
-  numCols
+  numCols,
 } from "./utils/helpers";
+import { gliderPattern, blinkerPattern, addPatternToGrid } from "./utils/patterns";
 import "./App.css";
-
 
 function App() {
   const [grid, setGrid] = useState(generateRandomGrid());
   const [running, setRunning] = useState(false);
   const [generation, setGeneration] = useState(0);
+  const [speed, setSpeed] = useState(1000); // Default speed control
   const runningRef = useRef(running);
   runningRef.current = running;
 
@@ -24,7 +25,7 @@ function App() {
     [1, 0],
     [-1, 0],
     [-1, -1],
-    [-1, 1]
+    [-1, 1],
   ];
 
   const runSimulation = useCallback(() => {
@@ -37,12 +38,7 @@ function App() {
           operations.forEach(([x, y]) => {
             const newI = i + x;
             const newJ = j + y;
-            if (
-              newI >= 0 &&
-              newI < numRows &&
-              newJ >= 0 &&
-              newJ < numCols
-            ) {
+            if (newI >= 0 && newI < numRows && newJ >= 0 && newJ < numCols) {
               neighbors += g[newI][newJ];
             }
           });
@@ -56,13 +52,25 @@ function App() {
 
     setGeneration((gen) => gen + 1);
 
-    setTimeout(runSimulation, 100);
-  }, []);
+    setTimeout(runSimulation, speed);
+  }, [speed]);
+
+  useEffect(() => {
+    if (running) {
+      runningRef.current = true;
+      runSimulation();
+    }
+  }, [running, runSimulation]);
 
   const toggleCell = (row, col) => {
     const newGrid = grid.map((r, i) =>
       r.map((cell, j) => (i === row && j === col ? (cell ? 0 : 1) : cell))
     );
+    setGrid(newGrid);
+  };
+
+  const applyPattern = (pattern) => {
+    const newGrid = addPatternToGrid(pattern, grid, 5, 5); // Apply the pattern at the top-left
     setGrid(newGrid);
   };
 
@@ -101,6 +109,23 @@ function App() {
         >
           Random
         </button>
+        <div style={{ marginTop: "1rem" }}>
+          <label>Speed Control</label>
+          <input
+            type="range"
+            min="100"
+            max="2000"
+            value={speed}
+            onChange={(e) => setSpeed(Number(e.target.value))}
+          />
+          <span>{speed} ms</span>
+        </div>
+        <div style={{ marginTop: "1rem" }}>
+          <button onClick={() => applyPattern(gliderPattern)}>Glider</button>
+          <button onClick={() => applyPattern(blinkerPattern)} style={{ marginLeft: "1rem" }}>
+            Blinker
+          </button>
+        </div>
       </div>
     </div>
   );
