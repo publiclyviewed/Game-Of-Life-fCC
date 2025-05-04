@@ -1,12 +1,26 @@
-# React + Vite
+# Conway's Game of Life 🌱
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based implementation of Conway's Game of Life — a cellular automaton simulation featuring customizable patterns, speed controls, and a clean, interactive UI.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Interactive grid with click-to-toggle cells
+- Start, stop, and clear controls
+- Speed slider (slow to fast)
+- Preset patterns: Glider, Pulsar, Toad, Beacon, LWSS, Glider Gun
+- Responsive layout
 
-## Expanding the ESLint configuration
+## 🧠 How It Works
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Each cell on the grid follows these rules per generation:
+- **Survival**: A cell with 2 or 3 live neighbors survives.
+- **Birth**: A dead cell with 3 live neighbors becomes alive.
+- **Death**: All other cells die or remain dead.
+
+## 🛠️ Getting Started
+
+### 1. Clone & Install
+```bash
+git clone https://github.com/publiclyviewed/Game-Of-Life-fCC.git
+cd game-of-life
+npm install

@@ -6,7 +6,17 @@ import {
   numRows,
   numCols,
 } from "./utils/helpers";
-import { gliderPattern, blinkerPattern, addPatternToGrid } from "./utils/patterns";
+import {
+  gliderPattern,
+  blinkerPattern,
+  toadPattern,
+  beaconPattern,
+  pulsarPattern,
+  lwssPattern,
+  miniGosperGliderGun,
+  addPatternToGrid
+} from "./utils/patterns";
+
 import "./App.css";
 
 function App() {
@@ -56,11 +66,16 @@ function App() {
   }, [speed]);
 
   useEffect(() => {
+    setRunning(true); // <-- Start automatically
+  }, []);
+  
+  useEffect(() => {
     if (running) {
       runningRef.current = true;
       runSimulation();
     }
   }, [running, runSimulation]);
+  
 
   const toggleCell = (row, col) => {
     const newGrid = grid.map((r, i) =>
@@ -120,12 +135,22 @@ function App() {
           />
           <span>{speed} ms</span>
         </div>
-        <div style={{ marginTop: "1rem" }}>
-          <button onClick={() => applyPattern(gliderPattern)}>Glider</button>
-          <button onClick={() => applyPattern(blinkerPattern)} style={{ marginLeft: "1rem" }}>
-            Blinker
-          </button>
-        </div>
+        <details style={{ marginTop: "1rem" }}>
+  <summary style={{ cursor: "pointer", fontWeight: "bold" }}>Insert Pattern</summary>
+  <div style={{ marginTop: "0.5rem" }}>
+    <button onClick={() => applyPattern(gliderPattern)}>Glider</button>
+    <button onClick={() => applyPattern(blinkerPattern)}>Blinker</button>
+    <button onClick={() => applyPattern(toadPattern)}>Toad</button>
+    <button onClick={() => applyPattern(beaconPattern)}>Beacon</button>
+    <button onClick={() => applyPattern(pulsarPattern)}>Pulsar</button>
+    <button onClick={() => applyPattern(lwssPattern)}>LWSS</button>
+    <button onClick={() => applyPattern(miniGosperGliderGun)} style={{ marginLeft: "1rem" }}>
+    Glider Gun
+    </button>
+
+  </div>
+</details>
+
       </div>
     </div>
   );
