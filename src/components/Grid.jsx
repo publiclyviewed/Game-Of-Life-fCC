@@ -1,26 +1,22 @@
 import React from "react";
-import { numRows, numCols } from "../utils/helpers";
+
+
+import "../App.css";
 
 const Grid = ({ grid, toggleCell }) => {
   return (
     <div
+      className="grid"
       style={{
-        display: "grid",
-        gridTemplateColumns: `repeat(${numCols}, 20px)`,
-        justifyContent: "center"
+        gridTemplateColumns: `repeat(${grid[0].length}, 20px)`,
       }}
     >
       {grid.map((row, i) =>
         row.map((cell, j) => (
           <div
             key={`${i}-${j}`}
+            className={`cell ${cell ? "alive" : ""}`}
             onClick={() => toggleCell(i, j)}
-            style={{
-              width: 20,
-              height: 20,
-              backgroundColor: cell ? "#00FF00" : "#1a1a1a",
-              border: "solid 1px #222"
-            }}
           />
         ))
       )}
